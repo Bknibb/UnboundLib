@@ -54,13 +54,6 @@ namespace UnboundLib
 
         internal static CardInfo templateCard;
 
-        [Obsolete("This should not be used anymore instead use CardManager.defaultCards")]
-        internal static CardInfo[] defaultCards => CardManager.defaultCards;
-        [Obsolete("This should not be used anymore instead use CardManager.activeCards")]
-        internal static List<CardInfo> activeCards => CardManager.activeCards.ToList();
-        [Obsolete("This should not be used anymore instead use CardManager.inactiveCards")]
-        internal static List<CardInfo> inactiveCards => CardManager.inactiveCards;
-
         public delegate void OnJoinedDelegate();
         public delegate void OnLeftDelegate();
         public static event OnJoinedDelegate OnJoinedRoom;
@@ -497,26 +490,6 @@ namespace UnboundLib
             handShakeActions.Add(() => NetworkingManager.RaiseEventOthers($"ModLoader_{modId}_StartHandshake"));
         }
 
-        #region Remove these at a later date when mod's have updated to LevelManager
-        [ObsoleteAttribute("This method is obsolete. Use LevelManager.RegisterMaps() instead.", false)]
-        public static void RegisterMaps(AssetBundle assetBundle)
-        {
-            LevelManager.RegisterMaps(assetBundle);
-        }
-
-        [ObsoleteAttribute("This method is obsolete. Use LevelManager.RegisterMaps() instead.", false)]
-        public static void RegisterMaps(IEnumerable<string> paths)
-        {
-            RegisterMaps(paths, "Modded");
-        }
-
-        [ObsoleteAttribute("This method is obsolete. Use LevelManager.RegisterMaps() instead.", false)]
-        public static void RegisterMaps(IEnumerable<string> paths, string categoryName)
-        {
-            LevelManager.RegisterMaps(paths);
-        }
-        #endregion
-
         public static bool IsNotPlayingOrConnected()
         {
             return (GameManager.instance && !GameManager.instance.battleOngoing) &&
@@ -548,7 +521,8 @@ namespace UnboundLib
             "Pykess (Custom cards, stability, menus, syncing, extra player colors, disconnect handling, game mode framework)",
             "Ascyst (Quickplay)", "Boss Sloth Inc. (Menus, UI, custom maps, modded lobby syncing)",
             "willuwontu (Custom cards, ping UI)",
-            "otDan (UI)"
-        }, "Github", "https://github.com/Rounds-Modding/UnboundLib");
+            "otDan (UI)",
+            "Bknibb (Update to ROUNDS v1.1.2)"
+        }, "Github", "https://github.com/Bknibb/UnboundLib");
     }
 }
