@@ -425,6 +425,21 @@ namespace UnboundLib.Utils.UI
                 maskComponent.showMaskGraphic = true;
             }
 
+            foreach (CurveAnimation curveAnimation in cardObject.GetComponentsInChildren<CurveAnimation>())
+            {
+                foreach (CurveAnimationInstance animationInstance in curveAnimation.animations)
+                {
+                    animationInstance.endEvent.AddListener(() =>
+                    {
+                        backgroundObj.transform.Find("Particles")?.gameObject.SetActive(false);
+                        Unbound.Instance.ExecuteAfterFrames(1, () =>
+                        {
+                            backgroundObj.transform.Find("Particles")?.gameObject.SetActive(true);
+                        });
+                    });
+                }
+            }
+
             RectTransform rect = cardObject.GetOrAddComponent<RectTransform>();
             rect.localScale = 8f * Vector3.one;
             rect.anchorMin = Vector2.zero;
@@ -447,7 +462,7 @@ namespace UnboundLib.Utils.UI
                 var textComponent = textName.GetComponent<TextMeshProUGUI>();
                 if (textComponent != null)
                 {
-                    textComponent.text = cardInfo.cardName.ToUpper();
+                    textComponent.text = cardInfo.CardName.ToUpper();
                     textComponent.color = cardColor;
                 }
             }

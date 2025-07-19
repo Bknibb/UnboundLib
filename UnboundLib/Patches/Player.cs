@@ -68,7 +68,7 @@ namespace UnboundLib.Patches
     {
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            var f_playerID = UnboundLib.ExtensionMethods.GetFieldInfo(typeof(Player), "playerID");
+            var f_playerID = ExtensionMethods.GetFieldInfo(typeof(Player), "m_playerID");
             var m_colorID = UnboundLib.ExtensionMethods.GetMethodInfo(typeof(PlayerExtensions), nameof(PlayerExtensions.colorID));
 
             foreach (var ins in instructions)
@@ -90,7 +90,7 @@ namespace UnboundLib.Patches
     {
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            var f_playerID = UnboundLib.ExtensionMethods.GetFieldInfo(typeof(Player), "playerID");
+            var f_playerID = ExtensionMethods.GetFieldInfo(typeof(Player), "m_playerID");
             var m_colorID = UnboundLib.ExtensionMethods.GetMethodInfo(typeof(PlayerExtensions), nameof(PlayerExtensions.colorID));
 
             foreach (var ins in instructions)
@@ -131,7 +131,7 @@ namespace UnboundLib.Patches
                     { }
                     catch (Exception exception)
                     {
-                        UnityEngine.Debug.LogError($"{exception.GetType()}\nThrown by: {customCard.GetModName()} - {currentCard.cardName} - OnRemoveCard()");
+                        UnityEngine.Debug.LogError($"{exception.GetType()}\nThrown by: {customCard.GetModName()} - {currentCard.CardName} - OnRemoveCard()");
                         UnityEngine.Debug.LogException(exception);
                     }
                 }

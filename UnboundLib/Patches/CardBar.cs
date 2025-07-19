@@ -3,12 +3,13 @@ using UnityEngine;
 
 namespace UnboundLib.Patches
 {
-    [HarmonyPatch(typeof(CardBar), "OnHover")]
+    [HarmonyPatch(typeof(CardBar), "OnHover", argumentTypes: new System.Type[] { typeof(int) })]
+    [HarmonyPatch(typeof(CardBar), "OnHover", argumentTypes: new System.Type[] { typeof(CardBarButton) })]
     class CardBar_Patch
     {
-        static void Postfix(CardBar __instance, CardInfo card, Vector3 hoverPos, GameObject ___currentCard)
+        static void Postfix(CardBar __instance, GameObject ___m_currentCard)
         {
-            ___currentCard.SetActive(true);
+            ___m_currentCard.SetActive(true);
         }
     }
 }

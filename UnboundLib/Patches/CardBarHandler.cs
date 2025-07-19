@@ -9,7 +9,7 @@ namespace UnboundLib.Patches
     {
         static void Prefix(int teamId, CardInfo card)
         {
-            CardData.AddCard(teamId, card.cardName);
+            CardData.AddCard(teamId, card.CardName);
         }
     }
 }

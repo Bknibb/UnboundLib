@@ -36,7 +36,7 @@ namespace UnboundLib.Extensions
             }
         }
 
-        public static int colorID(this Player instance) => instance != null ? (instance.GetAdditionalData().colorID != -1 ? instance.GetAdditionalData().colorID : instance.teamID) : 0;
+        public static int colorID(this Player instance) => instance != null ? (instance.GetAdditionalData().colorID != -1 ? instance.GetAdditionalData().colorID : instance.TeamID) : 0;
 
         static PlayerSkin[] vanillaSkins = new PlayerSkin[]
         {

@@ -12,7 +12,7 @@ namespace UnboundLib.Patches
     {
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            var f_playerID = UnboundLib.ExtensionMethods.GetFieldInfo(typeof(Player), "playerID");
+            var f_playerID = ExtensionMethods.GetPropertyInfo(typeof(Player), "PlayerID").GetMethod;
             var m_colorID = UnboundLib.ExtensionMethods.GetMethodInfo(typeof(PlayerExtensions), nameof(PlayerExtensions.colorID));
 
             List<CodeInstruction> ins = instructions.ToList();
@@ -22,7 +22,7 @@ namespace UnboundLib.Patches
             for (int i = 0; i < ins.Count(); i++)
             {
                 // we only want to change the first occurence here
-                if (!ins[i].LoadsField(f_playerID)) continue;
+                if (!ins[i].Calls(f_playerID)) continue;
                 idx = i;
                 break;
             }

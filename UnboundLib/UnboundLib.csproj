@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -7,7 +7,7 @@
     <RootNamespace>UnboundLib</RootNamespace>
     <AssemblyName>UnboundLib</AssemblyName>
     <Authors>RoundsModding</Authors>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -39,6 +39,7 @@
     <IndirectBuildTask>true</IndirectBuildTask>
     <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
     <LangVersion>7.1</LangVersion>
+    <AutoGenerateBindingRedirects>False</AutoGenerateBindingRedirects>
   </PropertyGroup>
 
   <ItemGroup>
@@ -123,6 +124,12 @@
     </Reference>
     <Reference Include="UnityEngine.UIModule">
       <HintPath>$(RoundsFolder)\Rounds_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+    </Reference>
+	<Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>$(RoundsFolder)\Rounds_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
+	<Reference Include="Unity.Localization">
+      <HintPath>$(RoundsFolder)\Rounds_Data\Managed\Unity.Localization.dll</HintPath>
     </Reference>
   </ItemGroup>
 

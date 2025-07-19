@@ -41,9 +41,9 @@ namespace UnboundLib.Patches
                 return false;
             }
                 
-            if (UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main/Options(Clone)/Group").gameObject.activeInHierarchy)
+            if (UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main/UIOptions(Clone)/Group").gameObject.activeInHierarchy)
             {
-                UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main/Options(Clone)/Group").gameObject.SetActive(false);
+                UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main/UIOptions(Clone)/Group").gameObject.SetActive(false);
                 UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main/Group").gameObject.SetActive(true);
                 return false;
             }

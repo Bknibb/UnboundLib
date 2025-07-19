@@ -8,28 +8,13 @@ using UnboundLib.Extensions;
 
 namespace UnboundLib.Patches
 {
-    [HarmonyPatch]
+    [HarmonyPatch(typeof(PlayerAssigner), "CreatePlayer")]
     class PlayerAssigner_Patch_CreatePlayer
     {
-        static MethodBase TargetMethod()
-        {
-            var nestedTypes = typeof(PlayerAssigner).GetNestedTypes(BindingFlags.Instance | BindingFlags.NonPublic);
-            Type nestedCreatePlayerType = null;
-
-            foreach (var type in nestedTypes)
-            {
-                if (type.Name.Contains("CreatePlayer"))
-                {
-                    nestedCreatePlayerType = type;
-                }
-            }
-
-            return AccessTools.Method(nestedCreatePlayerType, "MoveNext");
-        }
 
         static void AssignColorID(CharacterData characterData)
         {
-            characterData.player.AssignColorID(characterData.player.teamID);
+            characterData.player.AssignColorID(characterData.player.TeamID);
         }
 
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
@@ -45,8 +30,8 @@ namespace UnboundLib.Patches
                 if (ins.Calls(m_registerPlayer))
                 {
                     yield return ins;
-                    // load the newly created character data onto the stack (local variable in slot 3) [characterData, ...]
-                    yield return new CodeInstruction(OpCodes.Ldloc_3);
+                    // load the newly created character data onto the stack (local variable in slot 1) [characterData, ...]
+                    yield return new CodeInstruction(OpCodes.Ldloc_1);
                     // call assignColorID which takes the character data off the stack [...]
                     yield return new CodeInstruction(OpCodes.Call,m_assignColorID);
                 }

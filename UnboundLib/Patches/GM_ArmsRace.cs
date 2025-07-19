@@ -40,9 +40,9 @@ namespace UnboundLib.Patches
         }
     }
 
-    [HarmonyPatch(typeof(GM_ArmsRace), "Start")]
+    [HarmonyPatch(typeof(GM_ArmsRace), "OnEnable")]
 
-    public class GM_ArmsRace_Patch_Start
+    public class GM_ArmsRace_Patch_OnEnable
     {
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {

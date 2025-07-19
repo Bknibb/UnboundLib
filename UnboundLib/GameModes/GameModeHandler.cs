@@ -83,7 +83,7 @@ namespace UnboundLib.GameModes
             // get new playerIDs
             Dictionary<Player, int> newPlayerIDs = new Dictionary<Player, int>();
             int playerID = 0;
-            foreach (Player player in remainingPlayers.OrderBy(p => p.playerID))
+            foreach (Player player in remainingPlayers.OrderBy(p => p.PlayerID))
             {
                 newPlayerIDs[player] = playerID;
                 playerID++;
@@ -96,7 +96,7 @@ namespace UnboundLib.GameModes
             newCardBars.AddRange(
                 from p in newPlayerIDs.Keys
                 orderby newPlayerIDs[p]
-                select cardBars[p.playerID]
+                select cardBars[p.PlayerID]
             );
             CardBarHandler.instance.SetFieldValue("cardBars", newCardBars.ToArray());
 
@@ -108,11 +108,11 @@ namespace UnboundLib.GameModes
 
             // reassign teamIDs
             Dictionary<int, List<Player>> teams = new Dictionary<int, List<Player>>();
-            foreach (Player player in remainingPlayers.OrderBy(p=>p.teamID).ThenBy(p=>p.playerID))
+            foreach (Player player in remainingPlayers.OrderBy(p=>p.TeamID).ThenBy(p=>p.PlayerID))
             {
-                if (!teams.ContainsKey(player.teamID)) { teams[player.teamID] = new List<Player>() { }; }
+                if (!teams.ContainsKey(player.TeamID)) { teams[player.TeamID] = new List<Player>() { }; }
 
-                teams[player.teamID].Add(player);
+                teams[player.TeamID].Add(player);
             }
 
             int teamID = 0;
@@ -128,7 +128,7 @@ namespace UnboundLib.GameModes
             PlayerManager.instance.players = remainingPlayers.ToList();
 
             // count number of unique teams remaining as well as the number of unique clients, if either are equal to 1, the game is borked
-            if (GameManager.instance.isPlaying && (PlayerManager.instance.players.Select(p => p.teamID).Distinct().Count() <= 1 || PlayerManager.instance.players.Select(p => p.data.view.ControllerActorNr).Distinct().Count() <= 1))
+            if (GameManager.instance.isPlaying && (PlayerManager.instance.players.Select(p => p.TeamID).Distinct().Count() <= 1 || PlayerManager.instance.players.Select(p => p.data.view.ControllerActorNr).Distinct().Count() <= 1))
             {
                 Unbound.Instance.StartCoroutine((IEnumerator) NetworkConnectionHandler.instance.InvokeMethod("DoDisconnect", "DISCONNECTED", "TOO MANY DISCONNECTS"));
             }

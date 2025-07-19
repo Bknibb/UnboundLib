@@ -25,7 +25,7 @@ namespace UnboundLib
     {
         private const string ModId = "com.willis.rounds.unbound";
         private const string ModName = "Rounds Unbound";
-        public const string Version = "3.2.13";
+        public const string Version = "4.0.0";
 
         public static Unbound Instance { get; private set; }
         public static readonly ConfigFile config = new ConfigFile(Path.Combine(Paths.ConfigPath, "UnboundLib.cfg"), true);
@@ -109,7 +109,7 @@ namespace UnboundLib
                 {
                     var resumeButton = UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main/Group/Resume").gameObject;
                     // Create options button in escapeMenu
-                    var optionsMenu = Instantiate(MainMenuHandler.instance.transform.Find("Canvas/ListSelector/Options").gameObject, UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main"));
+                    var optionsMenu = Instantiate(MainMenuHandler.instance.transform.Find("Canvas/ListSelector/UIOptions").gameObject, UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main"));
                     var menuBut = optionsMenu.transform.Find("Group/Back").GetComponent<Button>();
                     menuBut.onClick = new Button.ButtonClickedEvent();
                     menuBut.onClick.AddListener(() =>
@@ -146,19 +146,19 @@ namespace UnboundLib
                 orig(self);
             };
 
-            IEnumerator ArmsRaceStartCoroutine(On.GM_ArmsRace.orig_Start orig, GM_ArmsRace self)
+            IEnumerator ArmsRaceStartCoroutine(On.GM_ArmsRace.orig_OnEnable orig, GM_ArmsRace self)
             {
                 yield return GameModeManager.TriggerHook(GameModeHooks.HookInitStart);
                 orig(self);
                 yield return GameModeManager.TriggerHook(GameModeHooks.HookInitEnd);
             }
 
-            On.GM_ArmsRace.Start += (orig, self) =>
+            On.GM_ArmsRace.OnEnable += (orig, self) =>
             {
                 self.StartCoroutine(ArmsRaceStartCoroutine(orig, self));
             };
 
-            IEnumerator SandboxStartCoroutine(On.GM_Test.orig_Start orig, GM_Test self)
+            IEnumerator SandboxStartCoroutine(On.GM_Test.orig_OnEnable orig, GM_Test self)
             {
                 yield return GameModeManager.TriggerHook(GameModeHooks.HookInitStart);
                 yield return GameModeManager.TriggerHook(GameModeHooks.HookInitEnd);
@@ -168,7 +168,7 @@ namespace UnboundLib
                 yield return GameModeManager.TriggerHook(GameModeHooks.HookBattleStart);
             }
 
-            On.GM_Test.Start += (orig, self) =>
+            On.GM_Test.OnEnable += (orig, self) =>
             {
                 self.StartCoroutine(SandboxStartCoroutine(orig, self));
             };
@@ -240,27 +240,27 @@ namespace UnboundLib
             }
 
             //Check if we are on the correct build of ROUNDS (Version 0.1)
-            if (Application.version != "0.1")
-            {
+            //if (Application.version != "0.1")
+            //{
 
-                var brokenText = new GameObject("Broken Text", typeof(TextMeshProUGUI), typeof(Canvas)).GetComponent<TextMeshProUGUI>();
-                brokenText.text =
-                  "The version of ROUNDS you are playing on\r\n" +
-                  "is not currently compatible with mods.\r\n\r\n\r\n" +
-                  "To ensure proper compatability, please go to\r\n" +
-                  "the game's properties by right-clicking on it in steam.\r\n\r\n\r\n" +
-                  "Select the Betas tab, and set the Beta Participation\r\n" +
-                  "to old-rounds-for-mods";
-                brokenText.fontSize = 2;
-                brokenText.fontSizeMin = 1;
-                brokenText.alignment = TextAlignmentOptions.Center;
+            //    var brokenText = new GameObject("Broken Text", typeof(TextMeshProUGUI), typeof(Canvas)).GetComponent<TextMeshProUGUI>();
+            //    brokenText.text =
+            //      "The version of ROUNDS you are playing on\r\n" +
+            //      "is not currently compatible with mods.\r\n\r\n\r\n" +
+            //      "To ensure proper compatability, please go to\r\n" +
+            //      "the game's properties by right-clicking on it in steam.\r\n\r\n\r\n" +
+            //      "Select the Betas tab, and set the Beta Participation\r\n" +
+            //      "to old-rounds-for-mods";
+            //    brokenText.fontSize = 2;
+            //    brokenText.fontSizeMin = 1;
+            //    brokenText.alignment = TextAlignmentOptions.Center;
 
-                //Modals dont work on the new version, so just replace the entire MainMenu with a textbox
-                this.ExecuteAfterFrames(5, () =>
-                {
-                    MainMenuHandler.instance.transform.parent.gameObject.SetActive(false);
-                });
-            }
+            //    //Modals dont work on the new version, so just replace the entire MainMenu with a textbox
+            //    this.ExecuteAfterFrames(5, () =>
+            //    {
+            //        MainMenuHandler.instance.transform.parent.gameObject.SetActive(false);
+            //    });
+            //}
 
 
 
@@ -349,8 +349,8 @@ namespace UnboundLib
                                     DevConsole.isTyping ||
                                     ToggleLevelMenuHandler.instance.mapMenuCanvas.activeInHierarchy ||
 
-                                    (UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main/Options(Clone)/Group") &&
-                                     UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main/Options(Clone)/Group")
+                                    (UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main/UIOptions(Clone)/Group") &&
+                                     UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main/UIOptions(Clone)/Group")
                                          .gameObject.activeInHierarchy) ||
 
                                     (UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main/Group") &&

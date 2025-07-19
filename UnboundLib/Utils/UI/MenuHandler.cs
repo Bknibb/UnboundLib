@@ -59,7 +59,7 @@ namespace UnboundLib.Utils.UI
             obj.name = Name;
             
             // Assign back objects
-            var goBackObject = parentForButton.GetComponentInParent<ListMenuPage>();
+            var goBackObject = parentForButton.GetComponent<ListMenuPage>();
             obj.GetComponentInChildren<GoBack>(true).target = goBackObject;
             obj.GetComponentInChildren<GoBack>(true).goBackEvent.AddListener(ClickBack(goBackObject));
             obj.transform.Find("Group/Back").gameObject.GetComponent<Button>().onClick.AddListener(ClickBack(goBackObject));

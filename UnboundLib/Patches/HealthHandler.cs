@@ -12,7 +12,7 @@ namespace UnboundLib.Patches
     {
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            var f_playerID = ExtensionMethods.GetFieldInfo(typeof(Player), "playerID");
+            var f_playerID = ExtensionMethods.GetPropertyInfo(typeof(Player), "PlayerID").GetMethod;
             var m_colorID = ExtensionMethods.GetMethodInfo(typeof(PlayerExtensions), nameof(PlayerExtensions.colorID));
 
             List<CodeInstruction> ins = instructions.ToList();
@@ -22,7 +22,7 @@ namespace UnboundLib.Patches
             for (int i = 0; i < ins.Count(); i++)
             {
                 // we only want to change the first occurence here
-                if (!ins[i].LoadsField(f_playerID)) continue;
+                if (!ins[i].Calls(f_playerID)) continue;
                 idx = i;
                 break;
             }
@@ -41,7 +41,7 @@ namespace UnboundLib.Patches
     {
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            var f_playerID = ExtensionMethods.GetFieldInfo(typeof(Player), "playerID");
+            var f_playerID = ExtensionMethods.GetPropertyInfo(typeof(Player), "PlayerID").GetMethod;
             var m_colorID = ExtensionMethods.GetMethodInfo(typeof(PlayerExtensions), nameof(PlayerExtensions.colorID));
 
             List<CodeInstruction> ins = instructions.ToList();
@@ -51,7 +51,7 @@ namespace UnboundLib.Patches
             for (int i = 0; i < ins.Count(); i++)
             {
                 // we only want to change the first occurence here
-                if (!ins[i].LoadsField(f_playerID)) continue;
+                if (!ins[i].Calls(f_playerID)) continue;
                 idx = i;
                 break;
             }
@@ -71,12 +71,12 @@ namespace UnboundLib.Patches
     {
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            var f_playerID = ExtensionMethods.GetFieldInfo(typeof(Player), "playerID");
+            var f_playerID = ExtensionMethods.GetPropertyInfo(typeof(Player), "PlayerID").GetMethod;
             var m_colorID = ExtensionMethods.GetMethodInfo(typeof(PlayerExtensions), nameof(PlayerExtensions.colorID));
 
             foreach (var ins in instructions)
             {
-                if (ins.LoadsField(f_playerID))
+                if (ins.Calls(f_playerID))
                 {
                     // we want colorID instead of teamID
                     yield return new CodeInstruction(OpCodes.Call, m_colorID); // call the colorID method, which pops the player instance off the stack and leaves the result [colorID, ...]

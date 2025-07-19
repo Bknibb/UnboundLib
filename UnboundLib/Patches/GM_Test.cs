@@ -5,8 +5,8 @@ using System.Collections.Generic;
 namespace UnboundLib.Patches
 {
 
-    [HarmonyPatch(typeof(GM_Test), "Start")]
-    class GM_Test_Patch_Start
+    [HarmonyPatch(typeof(GM_Test), "OnEnable")]
+    class GM_Test_Patch_OnEnable
     {
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {

@@ -6,6 +6,7 @@ using Photon.Pun;
 using TMPro;
 using System.Linq;
 using UnboundLib.Utils;
+using UnityEngine.Localization;
 
 namespace UnboundLib.Cards
 {
@@ -138,9 +139,9 @@ namespace UnboundLib.Cards
                 newCardInfo.cardBase = customCard.GetCardBase();
                 // Apply card data
                 newCardInfo.cardStats = customCard.GetStats() ?? Array.Empty<CardInfoStat>();
-                newCardInfo.cardName = customCard.GetTitle();
+                ExtensionMethods.SetFieldValue(newCardInfo, "m_localizedCardName", new LocalizedString("StringTableCards", customCard.GetTitle()));
                 newCard.gameObject.name = $"__{customCard.GetModName()}__{customCard.GetTitle()}".Sanitize();
-                newCardInfo.cardDestription = customCard.GetDescription();
+                ExtensionMethods.SetFieldValue(newCardInfo, "m_localizedCardDescription", new LocalizedString("StringTableCards", customCard.GetDescription()));
                 newCardInfo.sourceCard = newCardInfo;
                 newCardInfo.rarity = customCard.GetRarity();
                 newCardInfo.colorTheme = customCard.GetTheme();
@@ -176,9 +177,9 @@ namespace UnboundLib.Cards
 
             cardInfo.cardBase = customCard.GetCardBase();
             cardInfo.cardStats = customCard.GetStats();
-            cardInfo.cardName = customCard.GetTitle();
+            ExtensionMethods.SetFieldValue(cardInfo, "m_localizedCardName", new LocalizedString("StringTableCards", customCard.GetTitle()));
             cardInfo.gameObject.name = $"__{customCard.GetModName()}__{customCard.GetTitle()}".Sanitize();
-            cardInfo.cardDestription = customCard.GetDescription();
+            ExtensionMethods.SetFieldValue(cardInfo, "m_localizedCardDescription", new LocalizedString("StringTableCards", customCard.GetDescription()));
             cardInfo.sourceCard = cardInfo;
             cardInfo.rarity = customCard.GetRarity();
             cardInfo.colorTheme = customCard.GetTheme();
@@ -207,9 +208,9 @@ namespace UnboundLib.Cards
 
             cardInfo.cardBase = customCard.GetCardBase();
             cardInfo.cardStats = customCard.GetStats();
-            cardInfo.cardName = customCard.GetTitle();
+            ExtensionMethods.SetFieldValue(cardInfo, "m_localizedCardName", new LocalizedString("StringTableCards", customCard.GetTitle()));
             cardInfo.gameObject.name = $"__{customCard.GetModName()}__{customCard.GetTitle()}".Sanitize();
-            cardInfo.cardDestription = customCard.GetDescription();
+            ExtensionMethods.SetFieldValue(cardInfo, "m_localizedCardDescription", new LocalizedString("StringTableCards", customCard.GetDescription()));
             cardInfo.sourceCard = cardInfo;
             cardInfo.rarity = customCard.GetRarity();
             cardInfo.colorTheme = customCard.GetTheme();
