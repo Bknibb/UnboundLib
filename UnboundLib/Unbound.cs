@@ -16,6 +16,7 @@ using UnboundLib.Utils.UI;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using static UnboundLib.Utils.UI.UpdateChecker;
 
 namespace UnboundLib
 {
@@ -96,6 +97,7 @@ namespace UnboundLib
                 ModOptions.instance.CreateModOptions(firstTime);
                 Credits.Instance.CreateCreditsMenu(firstTime);
                 MainMenuLinks.AddLinks(firstTime);
+                RegisterUpdateChecker("UnboundLib", Version, "Bknibb", "UnboundLib");
 
                 var time = firstTime;
                 this.ExecuteAfterSeconds(firstTime ? 0.4f : 0, () =>
@@ -444,6 +446,11 @@ namespace UnboundLib
         public static void RegisterCredits(string modName, string[] credits = null, string[] linkTexts = null, string[] linkURLs = null)
         {
             Credits.Instance.RegisterModCredits(new ModCredits(modName, credits, linkTexts, linkURLs));
+        }
+
+        public static void RegisterUpdateChecker(string modName, string modVersion, string repoOwner, string repoName)
+        {
+            UpdateChecker.Instance.RegisterModUpdateChecker(new ModUpdateChecker(modName, modVersion, repoOwner, repoName));
         }
 
         public static void RegisterMenu(string name, UnityAction buttonAction, Action<GameObject> guiAction, GameObject parent = null)

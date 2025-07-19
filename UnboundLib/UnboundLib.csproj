@@ -59,6 +59,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Octokit" Version="14.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\Assemblies\0Harmony.dll</HintPath>
     </Reference>
@@ -131,6 +135,9 @@
 	<Reference Include="Unity.Localization">
       <HintPath>$(RoundsFolder)\Rounds_Data\Managed\Unity.Localization.dll</HintPath>
     </Reference>
+	<Reference Include="System.Net.Http">
+		<HintPath>$(RoundsFolder)\Rounds_Data\Managed\System.Net.Http.dll</HintPath>
+	</Reference>
   </ItemGroup>
 
   <Target Name="ReadPackageVersionFromOutputAssembly" DependsOnTargets="Build" Outputs="$(PackageVersion)">

@@ -16,7 +16,7 @@ if ($Version -notmatch '^v\d+\.\d+\.\d+$') {
 }
 
 Write-Host "🔧 Building project..."
-dotnet build $ProjectPath
+dotnet build $ProjectPath -property:SolutionDir=$PWD.Path
 if ($LASTEXITCODE -ne 0) {
     Write-Error "❌ Build failed."
     exit 1
@@ -31,14 +31,25 @@ if (-not $dllPath) {
     exit 1
 }
 
+$octokitPath = Join-Path -Path $dllPath.Parent - ChildPath "Octokit.dll"
+
+if (-not $octokitPath) {
+    Write-Error "❌ DLL 'Octokit.dll' not found in build output."
+    exit 1
+}
+
 # Commit and tag
 Write-Host "🏷️ Creating git tag '$Version'..."
 git tag $Version
 git push origin $Version
 
+$Description = $Description + "\n\n(Put both dlls in the plugins folder)"
+
+
+
 # Create GitHub release with asset
 Write-Host "🚀 Creating GitHub release..."
-gh release create $Version "$dllPath.FullName" `
+gh release create $Version "$dllPath.FullName" "./Assemblies/MMHOOK_Assembly-CSharp.dll" "$octokitPath.FullName" `
     --title "Release $Version" `
     --notes "$Description"
 
