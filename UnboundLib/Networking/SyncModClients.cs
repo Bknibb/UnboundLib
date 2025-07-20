@@ -359,6 +359,7 @@ namespace UnboundLib.Networking
         private void Update()
         {
             if(Time.time <= startTime + delay) return;
+            if (PhotonNetwork.CurrentRoom == null) return;
             
             if (update)
             {
@@ -395,6 +396,7 @@ namespace UnboundLib.Networking
                 delay = BaseDelay;
 
                 // look through all of the mod syncing objects and make sure there is a photon client with the same actor number
+                if (PhotonNetwork.CurrentRoom == null) return;
                 List<int> toDestroy = new List<int>();
                 for (int i = 0; i < gameObject.transform.childCount; i++)
                 {

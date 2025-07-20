@@ -359,6 +359,38 @@ namespace UnboundLib
                     string.Format("Couldn't find property {0} in type {1}", fieldName, objType.FullName));
             propInfo.SetValue(obj, val);
         }
+        public static FieldInfo GetStaticFieldInfo(Type type, string fieldName)
+        {
+            FieldInfo fieldInfo = null;
+            do
+            {
+                fieldInfo = type.GetField(fieldName,
+                        BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+                type = type.BaseType;
+            }
+            while (fieldInfo == null && type != null);
+            return fieldInfo;
+        }
+        public static object GetStaticFieldValue(Type type, string fieldName)
+        {
+            if (type == null)
+                throw new ArgumentNullException("type");
+            FieldInfo propInfo = GetStaticFieldInfo(type, fieldName);
+            if (propInfo == null)
+                throw new ArgumentOutOfRangeException("propertyName",
+                    string.Format("Couldn't find property {0} in type {1}", fieldName, type.FullName));
+            return propInfo.GetValue(null);
+        }
+        public static void SetStaticFieldValue(Type type, string fieldName, object val)
+        {
+            if (type == null)
+                throw new ArgumentNullException("type");
+            FieldInfo propInfo = GetStaticFieldInfo(type, fieldName);
+            if (propInfo == null)
+                throw new ArgumentOutOfRangeException("propertyName",
+                    string.Format("Couldn't find property {0} in type {1}", fieldName, type.FullName));
+            propInfo.SetValue(null, val);
+        }
 
         // properties
         public static PropertyInfo GetPropertyInfo(Type type, string propertyName)
