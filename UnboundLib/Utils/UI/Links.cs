@@ -20,9 +20,12 @@ namespace UnboundLib.Utils.UI
                 links = UnityEngine.Object.Instantiate(Unbound.linkAssets.LoadAsset<GameObject>("Links"), MainMenuHandler.instance.transform.Find("Canvas/"));
                 UnityEngine.Object.DontDestroyOnLoad(links);
                 // do setup like placement and adding components
-                links.transform.position = MainCam.instance.transform.GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.height*16f/9f, 0, 0f));
+                float aspectRatio = (float) Screen.width / Screen.height;
+                float targetHeight16by9 = Screen.width * 9f / 16f;
+                float extraVerticalPixels = Screen.height - targetHeight16by9;
+                float verticalPadding = Mathf.Max(extraVerticalPixels / 2f, 0);
+                links.transform.position = MainCam.instance.transform.GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.height*aspectRatio, verticalPadding, 0f));
                 links.transform.position += new Vector3(0f, 0f, 100f);
-
                 Link discordLink = links.transform.GetChild(0).gameObject.AddComponent<Link>();
                 discordLink._Links = "https://discord.gg/zUtsjXWeWk";
                 Link thunderstoreLink = links.transform.GetChild(1).gameObject.AddComponent<Link>();

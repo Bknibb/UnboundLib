@@ -54,7 +54,10 @@ namespace UnboundLib.Utils.UI
                     UpdatesMenu.transform.SetParent(MainMenuHandler.instance.transform.Find("Canvas"), true);
                     UpdatesMenu.transform.SetAsFirstSibling();
                     UpdatesMenu.transform.localScale = Vector3.one;
-                    UpdatesMenu.transform.position = MainCam.instance.transform.GetComponent<Camera>().ScreenToWorldPoint(new Vector3(0, 0, 0f));
+                    float targetHeight16by9 = Screen.width * 9f / 16f;
+                    float extraVerticalPixels = Screen.height - targetHeight16by9;
+                    float verticalPadding = Mathf.Max(extraVerticalPixels / 2f);
+                    UpdatesMenu.transform.position = MainCam.instance.transform.GetComponent<Camera>().ScreenToWorldPoint(new Vector3(0, verticalPadding, 0f));
                     UpdatesMenu.transform.position += new Vector3(0, 0, 100f);
                     UpdatesMenu.transform.localPosition += new Vector3(50f, 50f, 0f);
                     //var verticalLayoutGroup = UpdatesMenu.AddComponent<VerticalLayoutGroup>();
