@@ -4,6 +4,8 @@ For more mods, news, and support join us on discord here: https://discord.gg/mGf
 # UnboundLib
 This is a helpful utility for ROUNDS modders aimed at simplifying certain common tasks.
 
+This fork adds compatibility for game version v1.1.2
+
 # Usage
 
 ## NetworkingManager
