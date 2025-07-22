@@ -26,7 +26,7 @@ namespace UnboundLib
     {
         private const string ModId = "com.willis.rounds.unbound";
         private const string ModName = "Rounds Unbound";
-        public const string Version = "4.0.3";
+        public const string Version = "4.0.4";
 
         public static Unbound Instance { get; private set; }
         public static readonly ConfigFile config = new ConfigFile(Path.Combine(Paths.ConfigPath, "UnboundLib.cfg"), true);
@@ -102,27 +102,6 @@ namespace UnboundLib
                 var time = firstTime;
                 this.ExecuteAfterSeconds(firstTime ? 0.4f : 0, () =>
                 {
-                    var resumeButton = UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main/Group/Resume").gameObject;
-                    // Create options button in escapeMenu
-                    var optionsMenu = Instantiate(MainMenuHandler.instance.transform.Find("Canvas/ListSelector/UIOptions").gameObject, UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main"));
-                    var menuBut = optionsMenu.transform.Find("Group/Back").GetComponent<Button>();
-                    menuBut.onClick = new Button.ButtonClickedEvent();
-                    menuBut.onClick.AddListener(() =>
-                    {
-                        optionsMenu.transform.Find("Group").gameObject.SetActive(false);
-                        UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main/Group").gameObject.SetActive(true);
-                    });
-
-                    var optionsButton = Instantiate(resumeButton, UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main/Group"));
-                    optionsButton.transform.SetSiblingIndex(2);
-                    optionsButton.GetComponentInChildren<TextMeshProUGUI>().text = "OPTIONS";
-                    optionsButton.GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
-                    optionsButton.GetComponent<Button>().onClick.AddListener((() =>
-                    {
-                        optionsMenu.transform.Find("Group").gameObject.SetActive(true);
-                        UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main/Group").gameObject.SetActive(false);
-                    }));
-
                     if (time)
                     {
                         CardManager.FirstTimeStart();
@@ -344,8 +323,8 @@ namespace UnboundLib
                                     DevConsole.isTyping ||
                                     ToggleLevelMenuHandler.instance.mapMenuCanvas.activeInHierarchy ||
 
-                                    (UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main/UIOptions(Clone)/Group") &&
-                                     UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main/UIOptions(Clone)/Group")
+                                    (UIHandler.instance.transform.Find("Canvas/EscapeMenu/UIOptions_ESC/Group") &&
+                                     UIHandler.instance.transform.Find("Canvas/EscapeMenu/UIOptions_ESC/Group")
                                          .gameObject.activeInHierarchy) ||
 
                                     (UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main/Group") &&
@@ -353,8 +332,8 @@ namespace UnboundLib
                                          .activeInHierarchy) ||
 
                                     (
-                                    UIHandler.instance.transform.Find("Canvas/EscapeMenu/MOD OPTIONS/Group") &&
-                                    UIHandler.instance.transform.Find("Canvas/EscapeMenu/MOD OPTIONS/Group").gameObject.activeInHierarchy) ||
+                                    UIHandler.instance.transform.Find("Canvas/EscapeMenu/MODS/Group") &&
+                                    UIHandler.instance.transform.Find("Canvas/EscapeMenu/MODS/Group").gameObject.activeInHierarchy) ||
                                     ToggleCardsMenuHandler.menuOpenFromOutside ||
                                     lockInputBools.Values.Any(b => b);
         }

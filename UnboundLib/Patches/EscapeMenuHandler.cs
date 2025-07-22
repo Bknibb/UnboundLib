@@ -40,13 +40,7 @@ namespace UnboundLib.Patches
                 if(ToggleCardsMenuHandler.menuOpenFromOutside) ToggleCardsMenuHandler.Close();
                 return false;
             }
-                
-            if (UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main/UIOptions(Clone)/Group").gameObject.activeInHierarchy)
-            {
-                UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main/UIOptions(Clone)/Group").gameObject.SetActive(false);
-                UIHandler.instance.transform.Find("Canvas/EscapeMenu/Main/Group").gameObject.SetActive(true);
-                return false;
-            }
+            
             foreach (Transform child in __instance.transform)
             {
                 if (child.Find("Group") && child.Find("Group").gameObject.activeInHierarchy)

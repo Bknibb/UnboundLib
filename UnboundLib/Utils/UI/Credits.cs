@@ -81,14 +81,18 @@ namespace UnboundLib.Utils.UI
 
                 // ROUNDS
                 AddModCredits(roundsCredits, RoundsCredits);
+                RoundsCredits.GetComponent<ListMenuPage>().SetFieldValue("firstSelected", RoundsCredits.transform.GetChild(0).GetComponentInChildren<ListMenuButton>());
                 // UNBOUND
                 AddModCredits(Unbound.modCredits, UnboundCredits);
+                UnboundCredits.GetComponent<ListMenuPage>().SetFieldValue("firstSelected", UnboundCredits.transform.GetChild(0).GetComponentInChildren<ListMenuButton>());
 
                 foreach (string modName in modCredits.Keys)
                 {
                     AddModCredits(modCredits[modName], creditsMenus[modName]);
+                    creditsMenus[modName].GetComponent<ListMenuPage>().SetFieldValue("firstSelected", creditsMenus[modName].transform.GetChild(0).GetComponentInChildren<ListMenuButton>());
                 }
 
+                CreditsMenu.GetComponent<ListMenuPage>().SetFieldValue("firstSelected", CreditsMenu.transform.GetChild(0).GetComponentInChildren<ListMenuButton>());
             });
         }
         internal void AddModCredits(ModCredits credits, GameObject parentMenu)

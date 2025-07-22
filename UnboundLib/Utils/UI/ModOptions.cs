@@ -137,6 +137,8 @@ namespace UnboundLib.Utils.UI
                     UnityEngine.Debug.LogError($"Exception thrown when attempting to build menu '{menu.menuName}', see log below for details.");
                     UnityEngine.Debug.LogException(e);
                 }
+
+                mmenu.GetComponent<ListMenuPage>().SetFieldValue("firstSelected", mmenu.transform.GetChild(0).GetComponentInChildren<ListMenuButton>());
             }
 
             // Create menu's for mods that do not use the new UI
@@ -178,6 +180,8 @@ namespace UnboundLib.Utils.UI
 
             // check if there are no deprecated ui's and disable the f1 menu
             if (GUIListeners.Count == 0) noDeprecatedMods = true;
+
+            modOptionsMenu.GetComponent<ListMenuPage>().SetFieldValue("firstSelected", modOptionsMenu.transform.GetChild(0).GetComponentInChildren<ListMenuButton>());
         }
 
         internal class ModMenu

@@ -94,16 +94,12 @@ namespace UnboundLib.GameModes
                 // do not destroy local button since RWF relies on it
                 MainMenuHandler.instance.transform.Find("Canvas/ListSelector/Main/Group/Local").gameObject.SetActive(false);
 
+                MainMenuHandler.instance.transform.Find("Canvas/ListSelector/Main").GetComponent<ListMenuPage>().SetFieldValue("firstSelected", GameObject.Find("Game/UI/UI_MainMenu/Canvas/ListSelector/Main/Group/LOCAL").GetComponent<ListMenuButton>());
+
                 var newVersusGo = Utils.UI.MenuHandler.CreateButton("VERSUS", newLocalMenu, () => { characterSelectGo_.GetComponent<ListMenuPage>().Open(); SetGameMode(ArmsRaceID); });
                 newVersusGo.name = "Versus";
                 var newSandboxGo = Utils.UI.MenuHandler.CreateButton("SANDBOX", newLocalMenu, () => { MainMenuHandler.instance.Close(); SetGameMode(SandBoxID); CurrentHandler.StartGame(); });
                 newSandboxGo.name = "Test";
-
-                // Select the local button so selection doesn't look weird
-                Unbound.Instance.ExecuteAfterFrames(15, () =>
-                {
-                    GameObject.Find("Game/UI/UI_MainMenu/Canvas/ListSelector/Main/Group/LOCAL").GetComponent<ListMenuButton>().OnPointerEnter(null);
-                });
 
                 // finally, restore the main menu button order
                 Unbound.Instance.ExecuteAfterFrames(5, () =>
@@ -132,10 +128,18 @@ namespace UnboundLib.GameModes
             var tMatchGo = onlineGo.transform.Find("Twitch")?.gameObject;
 
             if (qMatchGo != null) { Object.DestroyImmediate(qMatchGo); }
-            if (tMatchGo != null) { Object.DestroyImmediate(tMatchGo); }
+            if (tMatchGo != null) { Object.DestroyImmediate(tMatchGo); } 
+
+            var invFriendGo = onlineGo.transform.Find("Invite friend")?.gameObject;
+
+            // fix first selected, fixes selection issue due to qMatchGo and tMatchGo being destroyed
+            if (invFriendGo != null) onlineGo.GetComponentInParent<ListMenuPage>().SetFieldValue("firstSelected", invFriendGo.GetComponent<ListMenuButton>());
 
             // restore GoBack target
             characterSelectGo.transform.GetChild(0).GetComponent<GoBack>().target = gameModeGo.GetComponent<ListMenuPage>();
+
+            // set to hide bar
+            characterSelectGo.GetComponent<ListMenuPage>().SetFieldValue("m_hideBar", true);
 
             // destroy all other buttons in this menu
             List<GameObject> objsToDestroy = new List<GameObject>() { };
@@ -186,6 +190,9 @@ namespace UnboundLib.GameModes
             // finally, if Versus or Sandbox were removed from the handlers/gamemodes, set their buttons to inactive - do not destroy their buttons
             versusGo.SetActive(handlers.ContainsKey(ArmsRaceID));
             sandboxGo.SetActive(handlers.ContainsKey(SandBoxID));
+
+            // fix first selected, fixes selection issue when versusGo or sandboxGo are disabled
+            gameModeGo.GetComponent<ListMenuPage>().SetFieldValue("firstSelected", contentGo.GetComponentInChildren<ListMenuButton>());
         }
 
         public static IEnumerator TriggerHook(string key)
