@@ -1,13 +1,14 @@
 ﻿using BepInEx;
+using BepInEx.Configuration;
 using HarmonyLib;
+using Jotunn.Utils;
 using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using BepInEx.Configuration;
-using Jotunn.Utils;
+using System.Runtime.InteropServices;
 using TMPro;
 using UnboundLib.GameModes;
 using UnboundLib.Networking;
@@ -26,7 +27,7 @@ namespace UnboundLib
     {
         private const string ModId = "com.willis.rounds.unbound";
         private const string ModName = "Rounds Unbound";
-        public const string Version = "4.0.4";
+        public const string Version = "4.0.5";
 
         public static Unbound Instance { get; private set; }
         public static readonly ConfigFile config = new ConfigFile(Path.Combine(Paths.ConfigPath, "UnboundLib.cfg"), true);
@@ -75,8 +76,22 @@ namespace UnboundLib
 
         private TextMeshProUGUI text;
 
+        [DllImport("user32.dll")]
+        private static extern short GetAsyncKeyState(int vKey);
+
+        private const int VK_LSHIFT = 0xA0;
+
+        public static bool Loaded { get; private set; } = false;
+
         public Unbound()
         {
+            if ((GetAsyncKeyState(VK_LSHIFT) & 0x8000) != 0)
+            {
+                Debug.LogWarning("UnboundLib was not loaded due to Left Shift being pressed!");
+                DestroyImmediate(this);
+                return;
+            }
+            Loaded = true;
             // Add UNBOUND text to the main menu screen
             bool firstTime = true;
 
