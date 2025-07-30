@@ -27,10 +27,11 @@ namespace UnboundLib
     {
         private const string ModId = "com.willis.rounds.unbound";
         private const string ModName = "Rounds Unbound";
-        public const string Version = "4.0.5";
+        public const string Version = "4.0.6";
 
         public static Unbound Instance { get; private set; }
         public static readonly ConfigFile config = new ConfigFile(Path.Combine(Paths.ConfigPath, "UnboundLib.cfg"), true);
+        public static readonly ConfigEntry<bool> lockMouse = BindConfig("Config Options", "LockMouse", true, new ConfigDescription("Lock mouse to the game window (normally the game only does this for exclusive fullscreen)"));
 
         private Canvas _canvas;
         public Canvas canvas
@@ -325,6 +326,8 @@ namespace UnboundLib
 
             // sync modded clients
             networkEvents.OnJoinedRoomEvent += SyncModClients.RequestSync;
+
+            RegisterMenu(ModName, () => { }, Config, null, true);
         }
 
         private void Update()
@@ -351,6 +354,13 @@ namespace UnboundLib
                                     UIHandler.instance.transform.Find("Canvas/EscapeMenu/MODS/Group").gameObject.activeInHierarchy) ||
                                     ToggleCardsMenuHandler.menuOpenFromOutside ||
                                     lockInputBools.Values.Any(b => b);
+        }
+
+        private void Config(GameObject menu)
+        {
+            MenuHandler.CreateText($"{ModName} Options", menu, out TextMeshProUGUI _, 45);
+            MenuHandler.CreateText(" ", menu, out TextMeshProUGUI _, 15);
+            MenuHandler.CreateToggle(lockMouse.Value, "Lock mouse to the game window (normally the game only does this for exclusive fullscreen)", menu, (value) => { lockMouse.Value = value; Cursor.lockState = lockMouse.Value ? CursorLockMode.Confined : CursorLockMode.None; }, 30);
         }
 
         private void OnGUI()

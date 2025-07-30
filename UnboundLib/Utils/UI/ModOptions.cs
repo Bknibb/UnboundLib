@@ -68,11 +68,9 @@ namespace UnboundLib.Utils.UI
             {
                 modOptionsMenu.GetComponentInChildren<GoBack>(true).goBackEvent.AddListener(() => {showingModOptions = false;});
             }
-            else
-            {
-                GameObject.Destroy(modOptionsMenu.GetComponentInChildren<GoBack>(true));
-            }
+            
             modOptionsMenu.transform.Find("Group/Back").gameObject.GetComponent<Button>().onClick.AddListener(() => {showingModOptions = false;});
+            
 
             if (!pauseMenu)
             {

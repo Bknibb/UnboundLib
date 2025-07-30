@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using UnityEngine.UI.ProceduralImage;
 using Object = UnityEngine.Object;
 
 namespace UnboundLib.Utils.UI
@@ -57,12 +58,22 @@ namespace UnboundLib.Utils.UI
         {
             var obj = parentForMenu is null ? Object.Instantiate(menuBase, MainMenuHandler.instance.transform.Find("Canvas/ListSelector")) : Object.Instantiate(menuBase, parentForMenu.transform);
             obj.name = Name;
-            
+
+            var isPauseMenu = parentForButton.GetComponentInParent<EscapeMenuHandler>() != null;
+
             // Assign back objects
             var goBackObject = parentForButton.GetComponent<ListMenuPage>();
-            obj.GetComponentInChildren<GoBack>(true).target = goBackObject;
-            obj.GetComponentInChildren<GoBack>(true).goBackEvent.AddListener(ClickBack(goBackObject));
-            obj.transform.Find("Group/Back").gameObject.GetComponent<Button>().onClick.AddListener(ClickBack(goBackObject));
+            if (isPauseMenu)
+            {
+                GameObject.Destroy(obj.GetComponentInChildren<GoBack>(true));
+                obj.transform.Find("Group/Back").gameObject.GetComponent<Button>().onClick.RemoveAllListeners();
+                obj.transform.Find("Group/Back").gameObject.GetComponent<Button>().onClick.AddListener(() => ListMenu.instance.CloseTopPage());
+            } else
+            {
+                obj.GetComponentInChildren<GoBack>(true).target = goBackObject;
+                obj.GetComponentInChildren<GoBack>(true).goBackEvent.AddListener(ClickBack(goBackObject));
+                obj.transform.Find("Group/Back").gameObject.GetComponent<Button>().onClick.AddListener(ClickBack(goBackObject));
+            }
 
             // GetParent for button
             Transform buttonParent = null;
@@ -85,7 +96,7 @@ namespace UnboundLib.Utils.UI
                 buttonAction = () => 
                 {
                     obj.GetComponent<ListMenuPage>().Open();
-                    goBackObject.Close();
+                    if (!isPauseMenu) goBackObject.Close();
                     obj.GetComponentInChildren<ScrollRect>().verticalNormalizedPosition = 1;
                 };
             }
@@ -94,11 +105,52 @@ namespace UnboundLib.Utils.UI
                 buttonAction += () => 
                 {
                     obj.GetComponent<ListMenuPage>().Open();
-                    goBackObject.Close();
+                    if (!isPauseMenu) goBackObject.Close();
                     obj.GetComponentInChildren<ScrollRect>().verticalNormalizedPosition = 1;
                 };
             }
             button.GetComponent<Button>().onClick.AddListener(buttonAction);
+
+            if (isPauseMenu)
+            {
+                button.GetComponent<Button>().image = button.AddComponent<ProceduralImage>();
+                button.GetComponent<Button>().transition = Selectable.Transition.ColorTint;
+                button.GetComponent<Button>().colors = new ColorBlock
+                {
+                    normalColor = new Color(1f, 1f, 1f, 0f),
+                    highlightedColor = new Color(0.783f, 0.3611f, 0f, 1f),
+                    pressedColor = new Color(0.783f, 0.3611f, 0f, 1f),
+                    selectedColor = new Color(0.783f, 0.3611f, 0f, 1f),
+                    disabledColor = new Color(0.7843f, 0.7843f, 0.7843f, 0.502f),
+                    colorMultiplier = 1,
+                    fadeDuration = 0
+                };
+                button.GetComponent<RectTransform>().sizeDelta = new Vector2(button.GetComponent<RectTransform>().sizeDelta.x, 92);
+                if (button.GetComponent<LayoutElement>() != null) button.GetComponent<LayoutElement>().preferredHeight = 92;
+                button.GetComponentInChildren<TextMeshProUGUI>().enableAutoSizing = false;
+                button.GetComponentInChildren<TextMeshProUGUI>().fontSize = 60;
+                if (obj.transform.Find("Group/Grid/Scroll View"))
+                {
+                    obj.transform.Find("Group/Grid/Scroll View").GetComponent<RectTransform>().sizeDelta = new Vector2(2050.3f, obj.transform.Find("Group/Grid/Scroll View").GetComponent<RectTransform>().sizeDelta.y);
+                }
+                GameObject.DestroyImmediate(obj.transform.Find("Group/Back").gameObject.GetComponentInChildren<ProceduralImage>(true).gameObject);
+                GameObject.DestroyImmediate(obj.transform.Find("Group/Back").gameObject.GetComponent<Image>());
+                obj.transform.Find("Group/Back").gameObject.GetComponent<Button>().image = obj.transform.Find("Group/Back").gameObject.AddComponent<ProceduralImage>();
+                obj.transform.Find("Group/Back").gameObject.GetComponent<Button>().transition = Selectable.Transition.ColorTint;
+                obj.transform.Find("Group/Back").gameObject.GetComponent<Button>().colors = new ColorBlock
+                {
+                    normalColor = new Color(1f, 1f, 1f, 0f),
+                    highlightedColor = new Color(0.783f, 0.3611f, 0f, 1f),
+                    pressedColor = new Color(0.783f, 0.3611f, 0f, 1f),
+                    selectedColor = new Color(0.783f, 0.3611f, 0f, 1f),
+                    disabledColor = new Color(0.7843f, 0.7843f, 0.7843f, 0.502f),
+                    colorMultiplier = 1,
+                    fadeDuration = 0
+                };
+                obj.transform.Find("Group/Back").gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(2050.3f, 92);
+                obj.transform.Find("Group/Back").gameObject.GetComponentInChildren<TextMeshProUGUI>().enableAutoSizing = false;
+                obj.transform.Find("Group/Back").gameObject.GetComponentInChildren<TextMeshProUGUI>().fontSize = 60;
+            }
 
             menuButton = button;
 
@@ -170,7 +222,28 @@ namespace UnboundLib.Utils.UI
             if (alignmentOptions != null) { uGUI.alignment = (TextAlignmentOptions)alignmentOptions; }
 
             buttonObject.GetComponent<RectTransform>().sizeDelta += new Vector2(400, 0);
-            
+
+            var isPauseMenu = parent.GetComponentInParent<EscapeMenuHandler>() != null;
+            if (isPauseMenu)
+            {
+                button.image = buttonObject.AddComponent<ProceduralImage>();
+                button.transition = Selectable.Transition.ColorTint;
+                button.colors = new ColorBlock
+                {
+                    normalColor = new Color(1f, 1f, 1f, 0f),
+                    highlightedColor = new Color(0.783f, 0.3611f, 0f, 1f),
+                    pressedColor = new Color(0.783f, 0.3611f, 0f, 1f),
+                    selectedColor = new Color(0.783f, 0.3611f, 0f, 1f),
+                    disabledColor = new Color(0.7843f, 0.7843f, 0.7843f, 0.502f),
+                    colorMultiplier = 1,
+                    fadeDuration = 0
+                };
+                button.GetComponent<RectTransform>().sizeDelta = new Vector2(button.GetComponent<RectTransform>().sizeDelta.x, 92);
+                if (button.GetComponent<LayoutElement>() != null) button.GetComponent<LayoutElement>().preferredHeight = 92;
+                button.GetComponentInChildren<TextMeshProUGUI>().enableAutoSizing = false;
+                button.GetComponentInChildren<TextMeshProUGUI>().fontSize = 60;
+            }
+
             return buttonObject;
         }
 
