@@ -1,10 +1,9 @@
 {
-    "name": "UnboundLib",
+    "name": "UnboundLib_Bknibb",
     "version_number": "#VERSION#",
-    "website_url": "https://github.com/Rounds-Modding/UnboundLib",
-    "description": "This is a helpful utility for ROUNDS modders aimed at simplifying common tasks.",
+    "website_url": "https://github.com/Bknibb/UnboundLib",
+    "description": "This is a helpful utility for ROUNDS modders aimed at simplifying common tasks. This fork adds compatibility for game version v1.1.2",
     "dependencies": [
-    	"BepInEx-BepInExPack_ROUNDS-5.4.1900",
-    	"willis81808-MMHook-1.0.0"
+    	"BepInEx-BepInExPack_ROUNDS-5.4.1901"
     ]
 }

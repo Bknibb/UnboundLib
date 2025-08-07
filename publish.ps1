@@ -54,15 +54,21 @@ if($Target.Equals("Release") -and $name.Equals("UnboundLib")) {
     $thunder = New-Item -Type Directory -Path "$package\Thunderstore\package"
     $thunder.CreateSubdirectory('plugins')
     Copy-Item -Path "$TargetPath\$name.dll" -Destination "$thunder\plugins\"
+	Copy-Item -Path "$TargetPath\Octokit.dll" -Destination "$thunder\plugins\"
+	Copy-Item -Path "$(Get-Location)\Assemblies\MMHOOK_Assembly-CSharp.dll" -Destination "$thunder\plugins\"
     Copy-Item -Path "$ProjectPath\README.md" -Destination "$thunder\README.md"
     Copy-Item -Path "$ProjectPath\manifest.json" -Destination "$thunder\manifest.json"
 
     ((Get-Content -path "$thunder\manifest.json" -Raw) -replace "#VERSION#", "$Version") | Set-Content -Path "$thunder\manifest.json"
 
-    Remove-Item -Path "$package\Thunderstore\$name.$Version.zip" -Force
+    Remove-Item -Path "$package\Thunderstore\$name.*.zip" -Force
     Copy-Item -Path "$(Get-Location)\icon.png" -Destination "$thunder\icon.png"
-    Compress-Archive -Path "$thunder\*" -DestinationPath "$package\Thunderstore\$name.$Version.zip"
+    Compress-Archive -Path "$thunder\*" -DestinationPath "$package\Thunderstore\$name.$Version.zip" -Force
     $thunder.Delete($true)
+	
+	Write-Host "Uploading to Thunderstore"
+	$token = Get-Content "$(Get-Location)\thunderstore.token"
+	tcli publish --file "$package\Thunderstore\$name.$Version.zip" --token $token
 }
 
 if($Target.Equals("Release")) {
