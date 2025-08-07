@@ -9,4 +9,4 @@ name = "UnboundLib_Bknibb"
 communities = ["rounds"]
 
 [publish.categories]
-rounds = [ "client-side", "server-side", "gameplay" ]
+rounds = [ "utilities", "patch" ]
