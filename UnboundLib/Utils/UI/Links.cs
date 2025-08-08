@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 namespace UnboundLib.Utils.UI
 {
@@ -74,6 +75,57 @@ namespace UnboundLib.Utils.UI
             if (inBounds && pressed)
             {
                 Application.OpenURL(_Links);
+            }
+            pressed = false;
+            if (!inBounds)
+            {
+                gameObject.transform.localScale = defaultScale;
+            }
+            else
+            {
+                gameObject.transform.localScale = defaultScale * HoverScale;
+            }
+        }
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            inBounds = true;
+            gameObject.transform.localScale = defaultScale * HoverScale;
+        }
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            inBounds = false;
+            if (!pressed)
+            {
+                gameObject.transform.localScale = defaultScale;
+            }
+        }
+    }
+
+    public class LinkAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
+    {
+        public UnityEvent clickEvent { get; private set; } = new UnityEvent();
+        private const float HoverScale = 1.05f;
+        private const float ClickScale = 0.95f;
+        private Vector3 defaultScale;
+        private bool inBounds = false;
+        private bool pressed = false;
+
+        private void Start()
+        {
+            defaultScale = gameObject.transform.localScale;
+        }
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            if (!inBounds) return;
+
+            pressed = true;
+            gameObject.transform.localScale = defaultScale * ClickScale;
+        }
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            if (inBounds && pressed)
+            {
+                clickEvent.Invoke();
             }
             pressed = false;
             if (!inBounds)
