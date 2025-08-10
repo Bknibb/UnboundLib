@@ -1,7 +1,9 @@
 ﻿using HarmonyLib;
+using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using UnboundLib.Extensions;
+using UnityEngine;
 
 
 namespace UnboundLib.Patches
@@ -33,6 +35,30 @@ namespace UnboundLib.Patches
                 {
                     yield return ins;
                 }
+            }
+        }
+    }
+    // Added a patch to fix a vanilla bug where pausing while a bot is spawned in breaks the game.
+    [HarmonyPatch(typeof(PlayerManager), nameof(PlayerManager.SetInputActive))]
+    class PlayerManager_Patch_SetInputActive
+    {
+        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var m_getIsLocal = ExtensionMethods.GetMethodInfo(typeof(Player), "get_IsLocal");
+            var f_data = ExtensionMethods.GetFieldInfo(typeof(Player), "data");
+            var f_playerActions = ExtensionMethods.GetFieldInfo(typeof(CharacterData), "playerActions");
+            CodeInstruction lastIns = null;
+            foreach (var ins in instructions)
+            {
+                yield return ins;
+                if (ins.opcode == OpCodes.Brfalse && lastIns.Calls(m_getIsLocal))
+                {
+                    yield return new CodeInstruction(OpCodes.Ldloc_1);
+                    yield return new CodeInstruction(OpCodes.Ldfld, f_data);
+                    yield return new CodeInstruction(OpCodes.Ldfld, f_playerActions);
+                    yield return ins;
+                }
+                lastIns = ins;
             }
         }
     }
