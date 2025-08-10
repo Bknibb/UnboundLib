@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
+using UnityEngine.Localization;
+using HarmonyLib;
+using System;
 
 namespace UnboundLib.GameModes
 {
@@ -130,7 +133,7 @@ namespace UnboundLib.GameModes
             // count number of unique teams remaining as well as the number of unique clients, if either are equal to 1, the game is borked
             if (GameManager.instance.isPlaying && (PlayerManager.instance.players.Select(p => p.TeamID).Distinct().Count() <= 1 || PlayerManager.instance.players.Select(p => p.data.view.ControllerActorNr).Distinct().Count() <= 1))
             {
-                Unbound.Instance.StartCoroutine((IEnumerator) NetworkConnectionHandler.instance.InvokeMethod("DoDisconnect", "DISCONNECTED", "TOO MANY DISCONNECTS"));
+                Unbound.Instance.StartCoroutine((IEnumerator) AccessTools.Method(typeof(NetworkConnectionHandler), "DoDisconnect", new Type[] { typeof(LocalizedString), typeof(string) }).Invoke(NetworkConnectionHandler.instance, new object[] { NetworkConnectionHandler.instance.GetFieldValue("m_localizedDisconnect"), "TOO MANY DISCONNECTS" }));
             }
         }
 

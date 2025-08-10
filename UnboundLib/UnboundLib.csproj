@@ -138,6 +138,9 @@
 	<Reference Include="System.Net.Http">
 		<HintPath>$(RoundsFolder)\Rounds_Data\Managed\System.Net.Http.dll</HintPath>
 	</Reference>
+	<Reference Include="Unity.Postprocessing.Runtime">
+		<HintPath>$(RoundsFolder)\Rounds_Data\Managed\Unity.Postprocessing.Runtime.dll</HintPath>
+	</Reference>
   </ItemGroup>
 
   <Target Name="ReadPackageVersionFromOutputAssembly" DependsOnTargets="Build" Outputs="$(PackageVersion)">
