@@ -140,7 +140,7 @@ namespace UnboundLib.StatsViewer
             { "Percentage Damage (Of Target Health)", (args) => ProcessStat(args.cardGun?.percentageDamage, args.playerGun.percentageDamage, StatsArgs.defaultGun.percentageDamage, StatsBetter.More, ChangeMode.Add) },
             { "Size", (args) => ProcessStat(args.cardGun?.size, args.playerGun.size, StatsArgs.defaultGun.size, StatsBetter.More, ChangeMode.Add) },
             { "Knockback", (args) => ProcessStat(args.projectileNum.HasValue ? 1f - args.projectileNum.Value * (1f - args.cardGun.knockback) : (float?)null, args.playerGun.knockback, StatsArgs.defaultGun.knockback, StatsBetter.More, ChangeMode.Mult) },
-            { "Projectile Speed", (args) => ProcessStat(args.cardGun?.projectileSize, args.playerGun.projectileSize, StatsArgs.defaultGun.projectileSize, StatsBetter.More, ChangeMode.Mult) },
+            { "Projectile Speed", (args) => ProcessStat(args.cardGun?.projectileSpeed, args.playerGun.projectileSpeed, StatsArgs.defaultGun.projectileSpeed, StatsBetter.More, ChangeMode.Mult) },
             { "Projectile Sim Speed", (args) => ProcessStat(args.cardGun?.projectielSimulatonSpeed, args.playerGun.projectielSimulatonSpeed, StatsArgs.defaultGun.projectielSimulatonSpeed, StatsBetter.More, ChangeMode.Mult) },
             { "Gravity", (args) => ProcessStat(args.cardGun?.gravity, args.playerGun.gravity, StatsArgs.defaultGun.gravity, StatsBetter.None, ChangeMode.Mult) },
             { "Attack Speed", (args) => ProcessStat(args.cardGun?.attackSpeed, args.playerGun.attackSpeed, StatsArgs.defaultGun.attackSpeed, StatsBetter.Less, ChangeMode.Mult) },
