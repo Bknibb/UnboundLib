@@ -24,6 +24,22 @@ namespace UnboundLib.Patches
             textUI.text = "100%";
             textUI.fontSize = 120;
             health.AddComponent<HealthPercent>();
+            HealthBar_Patch_Update.ogColor = __instance.hp.color;
+        }
+    }
+    [HarmonyPatch(typeof(HealthBar), "Update")]
+    class HealthBar_Patch_Update
+    {
+        public static Color ogColor;
+        public static Color respawnsColor = new Color(1f, 0.4f, 1f);
+        static void Postfix(HealthBar __instance, CharacterData ___data)
+        {
+            if (___data.stats.remainingRespawns > 0) {
+                __instance.hp.color = respawnsColor;
+            } else
+            {
+                if (__instance.hp.color == respawnsColor) __instance.hp.color = ogColor;
+            }
         }
     }
 }
