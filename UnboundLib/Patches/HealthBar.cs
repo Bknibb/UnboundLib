@@ -18,7 +18,8 @@ namespace UnboundLib.Patches
             Transform playerName = __instance.transform.Find("Canvas/PlayerName");
             GameObject health = GameObject.Instantiate(playerName.gameObject, playerName.parent);
             health.name = "Health";
-            playerName.AddYPosition(120);
+            //playerName.AddYPosition(120);
+            playerName.localPosition = new Vector3(playerName.localPosition.x, playerName.localPosition.y + 120, playerName.localPosition.z);
             UnityEngine.Object.Destroy(health.GetComponent<PlayerName>());
             TextMeshProUGUI textUI = health.GetComponent<TextMeshProUGUI>();
             textUI.text = "100%";

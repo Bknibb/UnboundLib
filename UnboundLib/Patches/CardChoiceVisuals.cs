@@ -65,7 +65,7 @@ namespace UnboundLib.Patches
         static void Postfix(CardChoiceVisuals __instance, int pickerID)
         {
             AttachedCardChoiceUI.instance.gameObject.SetActive(true);
-            StatsViewer.StatsViewer.ChangePlayer(PlayerManager.instance.players[pickerID]);
+            AttachedCardChoiceUI.instance.ChangePlayer(PlayerManager.instance.players[pickerID]);
         }
     }
     [HarmonyPatch(typeof(CardChoiceVisuals), "Hide")]
