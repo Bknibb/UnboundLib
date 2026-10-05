@@ -2,6 +2,9 @@
 This is a helpful utility for ROUNDS modders aimed at simplifying certain common tasks.
 
 This fork adds compatibility for game version v1.1.2
+The source code for this fork is at: https://github.com/Bknibb/UnboundLib
+The original UnboundLib project is at: https://thunderstore.io/c/rounds/p/willis81808/UnboundLib/
+The source code for the original is at: https://github.com/Rounds-Modding/UnboundLib
 
 # Original README
 
