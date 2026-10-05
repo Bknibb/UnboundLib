@@ -47,7 +47,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 # Determine output directory
-$outputDir = Join-Path -Path (Split-Path $ProjectPath -Parent) -ChildPath "bin/Debug/net472"
+$outputDir = Join-Path -Path (Split-Path $ProjectPath -Parent) -ChildPath "bin/Release/net472"
 $dllPath = Get-ChildItem -Recurse -Path $outputDir -Filter $DllName | Select-Object -First 1
 
 if (-not $dllPath) {

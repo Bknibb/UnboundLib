@@ -155,10 +155,13 @@
     </PropertyGroup>
   </Target>
 
-  <Target Name="PostBuildTaskWin" Condition="'$(OS)' == 'Windows_NT'" DependsOnTargets="Build" AfterTargets="Build">
+  <!--<Target Name="PostBuildTaskWin" Condition="'$(OS)' == 'Windows_NT'" DependsOnTargets="Build" AfterTargets="Build">
     <CallTarget Targets="ReadPackageVersionFromOutputAssembly">
       <Output TaskParameter="TargetOutputs" PropertyName="PackageVersion" />
     </CallTarget>
     <Exec Command="powershell.exe -ExecutionPolicy RemoteSigned -File &quot;$(SolutionDir)publish.ps1&quot; -Version &quot;$(PackageVersion.Remove($(PackageVersion.LastIndexOf('.')), 2))&quot; -Target &quot;$(ConfigurationName)&quot; -TargetPath &quot;$(TargetDir.TrimEnd('\'))&quot; -TargetAssembly &quot;$(TargetFileName)&quot; -RoundsPath &quot;$(RoundsFolder.TrimEnd('\'))&quot; -ProjectPath &quot;$(SolutionDir.TrimEnd('\'))&quot;" />
+  </Target>-->
+  <Target Name="PostBuildTaskWin" Condition="'$(OS)' == 'Windows_NT'" DependsOnTargets="Build" AfterTargets="Build">
+    <Exec Command="powershell.exe -ExecutionPolicy RemoteSigned -File &quot;$(SolutionDir)copy-to-rounds.ps1&quot; -TargetPath &quot;$(TargetDir.TrimEnd('\'))&quot; -TargetAssembly &quot;$(TargetFileName)&quot; -RoundsPath &quot;$(RoundsFolder.TrimEnd('\'))&quot;" />
   </Target>
 </Project>
